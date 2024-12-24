@@ -1,0 +1,108 @@
+package com.service.order.model;
+
+import java.math.BigDecimal;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+/*
+Note:
+The issue here arises because order is a reserved keyword in SQL. 
+When Hibernate tries to create a table with the name order, it results in an SQL syntax error. 
+To resolve this, you should avoid using order as the table name or use backticks to escape the table name.
+
+
+Solution 1: Use a Different Table Name
+
+Solution 2: Escape the Table Name
+@Table(name = "`order`")
+*/
+
+@Entity
+@Table(name = "orders")
+public class Order {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+
+	private String skuCode;
+	private String orderNumber;
+	private BigDecimal price;
+	private Integer quantity;
+	private boolean deleted;
+	
+	@Column(name = "user_id")
+	private Long userID;
+	
+	public Long getId() {
+		return id;
+	}
+	
+	public void setId(Long id) {
+		this.id = id;
+	}
+	
+	public String getSkuCode() {
+		return skuCode;
+	}
+	
+	public void setSkuCode(String skuCode) {
+		this.skuCode = skuCode;
+	}
+	
+	public String getOrderNumber() {
+		return orderNumber;
+	}
+	
+	public void setOrderNumber(String orderNumber) {
+		this.orderNumber = orderNumber;
+	}
+	
+	public BigDecimal getPrice() {
+		return price;
+	}
+	
+	public void setPrice(BigDecimal price) {
+		this.price = price;
+	}
+	
+	public Integer getQuantity() {
+		return quantity;
+	}
+	
+	public void setQuantity(Integer quantity) {
+		this.quantity = quantity;
+	}
+	
+	public boolean isDeleted() {
+		return deleted;
+	}
+	
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
+	}
+	
+	public Long getUserID() {
+		return userID;
+	}
+
+	public void setUserID(Long userID) {
+		this.userID = userID;
+	}
+
+	@Override
+	public String toString() {
+		return "Order [id=" + id 
+				+ ", skuCode=" + skuCode 
+				+ ", orderNumber=" + orderNumber 
+				+ ", price=" + price
+				+ ", quantity=" + quantity 
+				+ ", deleted=" + deleted 
+				+ "]";
+	}
+}

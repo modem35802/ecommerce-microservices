@@ -1,0 +1,20 @@
+spring.application.name=service-discovery
+
+server.port=8761
+
+eureka.client.register-with-eureka= false  
+eureka.client.fetch-registry= false
+
+eureka.server.enable-self-preservation= false
+
+logging.level.zipkin2.reporter=DEBUG
+logging.level.io.micrometer.tracing=DEBUG
+
+
+spring.micrometer.tracing.sampling.probability=1.0
+spring.zipkin.baseUrl=http://localhost:9411/
+
+#management.tracing.sampling.probability=1.0
+#management.zipkin.tracing.endpoint=http://localhost:9411/api/v2/spans
+
+

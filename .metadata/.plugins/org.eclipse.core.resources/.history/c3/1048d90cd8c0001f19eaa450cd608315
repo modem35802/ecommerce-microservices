@@ -1,0 +1,72 @@
+package com.service.inventory.service;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.service.inventory.dto.InventoryRequest;
+import com.service.inventory.model.Inventory;
+import com.service.inventory.repository.InventoryRepository;
+
+@Service
+public class InventoryService {
+	
+	@Autowired
+	private InventoryRepository inventoryRespository;
+	
+	public Integer checkQuantity(String skuCode, Integer quantity) {
+		Integer existinQquantity = inventoryRespository.findQuantityBySkuCode(skuCode);
+		System.out.println("Existing Quantity: " + existinQquantity + "\tOrdered Quantity :" + quantity);
+		
+		return existinQquantity;
+	}
+	
+	public InventoryRequest addInventory(InventoryRequest inventoryRequest) {
+		
+		Inventory inventory = mapInventoryRequestToInventory(inventoryRequest);
+		
+		inventory = inventoryRespository.save(inventory);
+		
+		inventoryRequest = mapInventoryToInventoryRequest(inventory);
+		
+		return inventoryRequest;
+	}
+	
+	
+	// map InventoryRequest to Inventory
+	private Inventory mapInventoryRequestToInventory(InventoryRequest inventoryRequest) {
+		Inventory inventory = new Inventory();
+		
+		inventory.setProductName(inventoryRequest.getProductName());
+		inventory.setCategory(inventoryRequest.getCategory());
+		inventory.setQuantity(inventoryRequest.getQuantity());
+		inventory.setSkuCode(inventoryRequest.getSkuCode());
+		
+		return inventory;
+	}
+	
+	// map Inventory to InventoryRequest
+	private InventoryRequest  mapInventoryToInventoryRequest(Inventory inventory) {
+		InventoryRequest inventoryRequest = new InventoryRequest();
+		
+		inventoryRequest.setId(inventory.getId());
+		inventoryRequest.setProductName(inventory.getProductName());
+		inventoryRequest.setCategory(inventory.getCategory());
+		inventoryRequest.setQuantity(inventory.getQuantity());
+		inventoryRequest.setSkuCode(inventory.getSkuCode());
+		
+		
+		return inventoryRequest;
+	}
+	
+	// map InventoryList to InventoryRequestsList
+	private List<InventoryRequest> mapInventoryListToInventoryRequestsList(List<Inventory> inventoryList) {
+		
+		return inventoryList.stream()
+				.map(this::mapInventoryToInventoryRequest)
+				.collect(Collectors.toList());
+	}
+
+}

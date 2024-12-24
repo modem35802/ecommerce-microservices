@@ -1,0 +1,54 @@
+package com.service.user.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.service.user.dto.UserRequest;
+import com.service.user.model.User;
+import com.service.user.repository.UserRepository;
+
+@Service
+public class UserService {
+	
+	@Autowired
+	private UserRepository userRepository;
+	
+	
+	
+	
+	
+	
+	
+	
+	// map user to userRequest
+	private UserRequest mapUserToUserRequest(User user) {
+		UserRequest userRequest = new UserRequest();
+		
+		userRequest.setFirstName(user.getFirstName());
+		userRequest.setLastName(user.getLastName());
+		userRequest.setGender(user.getGender().toUpperCase());
+		userRequest.setEmail(user.getEmail());
+		userRequest.setMobileNumber(user.getMobileNumber());
+		
+		return userRequest;
+	}
+	
+	
+	// map userRequest to user
+	private User mapUserRequestToUser(UserRequest userRequest) {
+		User user = new User();
+		
+		user.setFirstName(userRequest.getFirstName());
+		user.setLastName(userRequest.getLastName());
+		user.setGender(userRequest.getGender().toUpperCase());
+		user.setEmail(userRequest.getEmail());
+		user.setMobileNumber(userRequest.getMobileNumber());
+		
+		return user;
+	}
+	
+	
+	
+	
+	
+}
